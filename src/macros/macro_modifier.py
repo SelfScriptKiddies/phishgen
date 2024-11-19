@@ -2,6 +2,7 @@ from src import logger
 import jinja2
 import win32com.client, pythoncom
 from src.macros import data_scrub
+from src.config import MACRO_SOURCE_PATH
 
 
 log = logger.get_logger(__name__)
@@ -15,7 +16,7 @@ def compile_code(payload: list[str]) -> str:
     :param payload: list of strings with VBA-payload
     :return: code, ready for execute
     """
-    with open("resources/templates/macro_source.j2") as file:
+    with open(MACRO_SOURCE_PATH) as file:
         code_skeleton = file.read()
     template = jinja2.Template(code_skeleton).render(source_code=payload)
     log.debug(f"Compiled new code:\n{template}")
@@ -69,15 +70,17 @@ def modify_macro(doc: win32com.client.Dispatch, payload: str):
     return old_code
 
 
-def save_file(doc: win32com.client.Dispatch, filepath: str):
+def save_file(doc: win32com.client.Dispatch, filepath: str) -> str:
     """
     Deletes personal data and saves file
 
     :param doc: document object
     :param filepath: filepath for saving file
+    :return: filepath of new file
     """
     data_scrub.remove_document_properties(doc)
     data_scrub.remove_comments_and_tracked_changes(doc)
     log.debug(f"Successfully deleted all metadata")
     doc.SaveAs2(filepath, FileFormat=15)
     log.info(f"Saved new file: {filepath}")
+    return filepath
