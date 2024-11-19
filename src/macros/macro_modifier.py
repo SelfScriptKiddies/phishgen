@@ -1,11 +1,12 @@
-from src import logger
 import jinja2
 import win32com.client, pythoncom
+
+from pathlib import Path
+from src.logger import get_logger
 from src.macros import data_scrub
 from src.config import MACRO_SOURCE_PATH
 
-
-log = logger.get_logger(__name__)
+log = get_logger(__name__)
 pythoncom.CoInitialize()
 
 
@@ -23,7 +24,7 @@ def compile_code(payload: list[str]) -> str:
     return template
 
 
-def open_document(filepath: str) -> tuple[win32com.client.CDispatch, win32com.client.CDispatch]:
+def open_document(filepath: Path) -> tuple[win32com.client.CDispatch, win32com.client.CDispatch]:
     """
     Opens file in new instance of Word client
 
@@ -32,7 +33,7 @@ def open_document(filepath: str) -> tuple[win32com.client.CDispatch, win32com.cl
     """
     word = win32com.client.Dispatch("Word.Application")
     word.Visible = False
-    doc = word.Documents.Open(filepath, ReadOnly=False)
+    doc = word.Documents.Open(filepath.__str__(), ReadOnly=False)
     log.info(f"Opened new document: {filepath}")
     return word, doc
 
@@ -70,7 +71,7 @@ def modify_macro(doc: win32com.client.Dispatch, payload: str):
     return old_code
 
 
-def save_file(doc: win32com.client.Dispatch, filepath: str) -> str:
+def save_file(doc: win32com.client.Dispatch, filepath: Path) -> Path:
     """
     Deletes personal data and saves file
 
@@ -81,6 +82,24 @@ def save_file(doc: win32com.client.Dispatch, filepath: str) -> str:
     data_scrub.remove_document_properties(doc)
     data_scrub.remove_comments_and_tracked_changes(doc)
     log.debug(f"Successfully deleted all metadata")
-    doc.SaveAs2(filepath, FileFormat=15)
+    doc.SaveAs2(filepath.__str__(), FileFormat=15)
     log.info(f"Saved new file: {filepath}")
     return filepath
+
+
+def replace_source_code(filepath: Path, source_code: str, output_path: Path = None):
+    """
+    Replacing source code of provided .dotm macro file
+
+    :param filepath: path to macro file
+    :param source_code: source code represented as string
+    :param output_path: optional arg with path to output file
+    :return:
+    """
+    if output_path is None:
+        output_path = filepath.parent / f"{filepath.stem}_patched.dotm"
+    word, doc = open_document(filepath)
+    compiled_code = compile_code(source_code.split('\n'))
+    modify_macro(doc, compiled_code)
+    save_file(doc, output_path)
+    close_handlers(word, doc)

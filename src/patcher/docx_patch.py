@@ -67,16 +67,19 @@ def refactor_macro_link(link: str) -> str:
     log.fatal(f"Link to macro {link} not an URL or filepath (to override change config)")
 
 
-def patch_macro_path(filepath: Path, new_macro_path: str):
+def patch_macro_path(filepath: Path, new_macro_path: str, new_filepath: Path = None):
     """
     Edits template, that will be executed after opening the file
 
     :param filepath: filepath to DOCX file, created by template
     :param new_macro_path: filepath or URL of new macro
+    :param new_filepath: Filepath to output file
     :return:
     """
     if type(filepath) is str:
         filepath = Path(filepath)
+    if new_filepath is None:
+        new_filepath = filepath.parent / f"{filepath.stem}_patched.docx"
 
     temp_directory = create_temp_dir()
 
@@ -115,7 +118,7 @@ def patch_macro_path(filepath: Path, new_macro_path: str):
                     zip_info = zipfile.ZipInfo(str(item.relative_to(temp_folder)) + '/')
                     zipf.writestr(zip_info, '')
 
-        new_filepath = filepath.parent / f"{filepath.stem}_patched.docx"
+
         shutil.move(
             temp_directory / f"{DOCX_TEMP_FILENAME}_patched.zip",
             new_filepath
