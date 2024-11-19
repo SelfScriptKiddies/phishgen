@@ -51,7 +51,7 @@ def add_subparser(subparsers):
     """
     parser_create = subparsers.add_parser(
         'create',
-        help="Create document with specific format (.docx, .dotx, .dotm)"
+        help="Create document with specific format (.docx, .dotx)"
     )
     parser_create.add_argument(
         '-d',
@@ -63,7 +63,7 @@ def add_subparser(subparsers):
     parser_create.add_argument(
         'create_mode',
         type=str,
-        choices=['fulldoc', 'empty', 'full', 'macro'],
-        help="Mode: 'fulldoc', 'empty', 'full' or 'macro'."
+        choices=['fulldoc', 'empty', 'full'],
+        help="Mode: 'fulldoc', 'empty' or 'full'."
     )
     parser_create.set_defaults(func=create)

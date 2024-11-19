@@ -1,7 +1,9 @@
 import argparse
 
 from pathlib import Path
+
 from src.logger import get_logger
+from src.config import MACRO_DOTM_PATH
 from src.macros.macro_modifier import replace_source_code
 
 log = get_logger(__name__)
@@ -37,7 +39,7 @@ def macro(args: argparse.Namespace):
         log.error(f"Something wrong with your code...")
         exit(1)
 
-    replace_source_code(args.filepath, source_code, args.output_file)
+    replace_source_code(MACRO_DOTM_PATH, source_code, args.output_file)
 
     log.debug(f"Mode macro")
 
@@ -52,11 +54,6 @@ def add_subparser(subparsers):
     parser_macro = subparsers.add_parser(
         'macro',
         help="modify macro in .dotm file"
-    )
-    parser_macro.add_argument(
-        'filepath',
-        type=Path,
-        help="filepath to .dotm macro"
     )
     parser_macro.add_argument(
         '-o',
