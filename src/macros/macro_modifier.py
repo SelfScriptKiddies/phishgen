@@ -1,6 +1,8 @@
+from src import logger
 import jinja2
 import win32com.client, pythoncom
-from src import logger
+from src.macros import data_scrub
+
 
 log = logger.get_logger(__name__)
 pythoncom.CoInitialize()
@@ -30,8 +32,52 @@ def open_document(filepath: str) -> tuple[win32com.client.CDispatch, win32com.cl
     word = win32com.client.Dispatch("Word.Application")
     word.Visible = False
     doc = word.Documents.Open(filepath, ReadOnly=False)
+    log.info(f"Opened new document: {filepath}")
     return word, doc
 
 
-def modify_macro(doc):
-    ...
+def close_handlers(word: win32com.client.Dispatch, doc: win32com.client.Dispatch):
+    """
+    Closing handlers for stable work
+
+    :param word: word client
+    :param doc: document object
+    """
+    doc.Close()
+    word.Quit()
+    log.debug(f"Closed word and document")
+
+
+def modify_macro(doc: win32com.client.Dispatch, payload: str):
+    """
+    Modifying macro code in VBA-project
+
+    :param doc: document object
+    :param payload: rendered code
+    :return: old code, which was in file before replacing
+    """
+    vba_project = doc.VBProject
+    module = vba_project.VBComponents("NewMacros")
+    old_code = module.CodeModule.Lines(1, module.CodeModule.CountOfLines)
+    log.debug(f"Old module code: \n{old_code}")
+
+    # Replace old code with payload
+    module.CodeModule.DeleteLines(1, module.CodeModule.CountOfLines)
+    module.CodeModule.AddFromString(payload)
+
+    log.debug(f"New module code: \n{module.CodeModule.Lines(1, module.CodeModule.CountOfLines)}")
+    return old_code
+
+
+def save_file(doc: win32com.client.Dispatch, filepath: str):
+    """
+    Deletes personal data and saves file
+
+    :param doc: document object
+    :param filepath: filepath for saving file
+    """
+    data_scrub.remove_document_properties(doc)
+    data_scrub.remove_comments_and_tracked_changes(doc)
+    log.debug(f"Successfully deleted all metadata")
+    doc.SaveAs2(filepath, FileFormat=15)
+    log.info(f"Saved new file: {filepath}")
