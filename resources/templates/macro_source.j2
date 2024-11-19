@@ -1,0 +1,13 @@
+Sub AutoOpen()
+    a
+End Sub
+Sub Document_Open()
+    a
+End Sub
+
+Sub a()
+    {%- for line in source_code %}
+    {{ line -}}
+    {% endfor %}
+End Sub
+
