@@ -16,7 +16,7 @@ def create(args: argparse.Namespace):
     """
     mode = args.create_mode
 
-    if mode not in ['fulldoc', 'empty', 'full']:
+    if mode not in ['fulldoc', 'empty', 'full', 'malware']:
         log.fatal(f"Mode not available: {mode}")
         exit(1)
 
@@ -36,6 +36,11 @@ def create(args: argparse.Namespace):
                  f"inject")
         return
 
+    if mode == 'macro':
+        copy_template(r"resources/examples/macro.dotm", args.working_directory)
+        log.info(f"Copied macro file macro.dotm from examples to {args.working_directory}")
+        return
+
 
 def add_subparser(subparsers):
     """
@@ -46,7 +51,7 @@ def add_subparser(subparsers):
     """
     parser_create = subparsers.add_parser(
         'create',
-        help="Create document with specific format (.docx, .dotx)"
+        help="Create document with specific format (.docx, .dotx, .dotm)"
     )
     parser_create.add_argument(
         '-d',
@@ -58,8 +63,7 @@ def add_subparser(subparsers):
     parser_create.add_argument(
         'create_mode',
         type=str,
-        choices=['fulldoc', 'empty', 'full'],
-        help="Mode: 'fulldoc', 'empty' или 'full'."
+        choices=['fulldoc', 'empty', 'full', 'macro'],
+        help="Mode: 'fulldoc', 'empty', 'full' or 'macro'."
     )
-    parser_create.set_defaults(func=create)  # lambda arguments: create(arguments.create_mode)
-
+    parser_create.set_defaults(func=create)

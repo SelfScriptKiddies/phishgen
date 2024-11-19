@@ -82,4 +82,4 @@ def add_subparser(subparsers):
         dest="source"
     )
     parser_macro.set_defaults(
-        func=macro)  # lambda arguments: macro(arguments.macro, arguments.string or arguments.file)
+        func=macro)

@@ -56,4 +56,4 @@ def add_subparser(subparsers):
         default=None,
         dest="output_file"
     )
-    parser_inject.set_defaults(func=inject)  # inject(arguments.document, arguments.macro)
+    parser_inject.set_defaults(func=inject)
