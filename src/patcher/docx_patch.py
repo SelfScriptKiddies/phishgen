@@ -125,3 +125,14 @@ def patch_macro_path(filepath: Path, new_macro_path: str):
     document.close()
     delete_temp_dir(temp_directory)
 
+
+def copy_template(filepath: str, new_filepath: str):
+    """
+    Just copying function for better logging
+
+    :param filepath: filepath for original file
+    :param new_filepath: filepath for new file
+    :return:
+    """
+    shutil.copy(filepath, new_filepath)
+    log.debug(f"Copied {filepath} to {new_filepath}")
