@@ -2,11 +2,11 @@ import os
 import argparse
 
 from pathlib import Path
-from src.logger import get_logger
-from src.arguments import create, inject
+from phishgen.logger import get_logger
+from phishgen.arguments import create, inject
 
 if os.name == 'nt':
-    from src.arguments import macro
+    from phishgen.arguments import macro
 
 log = get_logger(__name__)
 

@@ -1,5 +1,5 @@
-from src.logger import get_logger
-from src.arguments.parser import parse_args
+from phishgen.logger import get_logger
+from phishgen.arguments.parser import parse_args
 
 log = get_logger(__name__)
 

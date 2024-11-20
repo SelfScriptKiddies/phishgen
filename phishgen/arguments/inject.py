@@ -2,8 +2,8 @@ import os
 import argparse
 
 from pathlib import Path
-from src.patcher.docx_patch import patch_macro_path
-from src.logger import get_logger
+from phishgen.patcher.docx_patch import patch_macro_path
+from phishgen.logger import get_logger
 
 log = get_logger(__name__)
 

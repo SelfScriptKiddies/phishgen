@@ -8,9 +8,9 @@ if os.name == 'nt':
     pythoncom.CoInitialize()
 
 from pathlib import Path
-from src.logger import get_logger
-from src.macros import data_scrub
-from src.config import MACRO_SOURCE_PATH
+from phishgen.logger import get_logger
+from phishgen.macros import data_scrub
+from phishgen.config import MACRO_SOURCE_PATH
 
 log = get_logger(__name__)
 

@@ -5,8 +5,8 @@ import tempfile
 import jinja2
 
 from pathlib import Path
-from src import logger
-from src.config import DOCX_TEMP_FILENAME, ACCEPT_NON_EXIST_MACRO, DOTM_SETTINGS_PATH
+from phishgen import logger
+from phishgen.config import DOCX_TEMP_FILENAME, ACCEPT_NON_EXIST_MACRO, DOTM_SETTINGS_PATH
 from urllib.parse import urlparse
 
 log = logger.get_logger(__name__)

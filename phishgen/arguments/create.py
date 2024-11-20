@@ -1,8 +1,8 @@
 import os
 import argparse
 
-from src.logger import get_logger
-from src.patcher.docx_patch import copy_template
+from phishgen.logger import get_logger
+from phishgen.patcher.docx_patch import copy_template
 
 log = get_logger(__name__)
 

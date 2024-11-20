@@ -1,4 +1,4 @@
-from src import logger
+from phishgen import logger
 import win32com.client, pythoncom
 
 log = logger.get_logger(__name__)

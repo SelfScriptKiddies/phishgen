@@ -2,9 +2,9 @@ import argparse
 
 from pathlib import Path
 
-from src.logger import get_logger
-from src.config import MACRO_DOTM_PATH
-from src.macros.macro_modifier import replace_source_code
+from phishgen.logger import get_logger
+from phishgen.config import MACRO_DOTM_PATH
+from phishgen.macros.macro_modifier import replace_source_code
 
 log = get_logger(__name__)
 
