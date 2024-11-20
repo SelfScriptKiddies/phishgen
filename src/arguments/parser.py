@@ -3,9 +3,13 @@ import argparse
 
 from pathlib import Path
 from src.logger import get_logger
-from src.arguments import create, inject, macro
+from src.arguments import create, inject
+
+if os.name == 'nt':
+    from src.arguments import macro
 
 log = get_logger(__name__)
+
 
 def validate_directory(path):
     """

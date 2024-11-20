@@ -1,7 +1,11 @@
 import os
 
 import jinja2
-import win32com.client, pythoncom
+
+if os.name == 'nt':
+    import win32com.client, pythoncom
+
+    pythoncom.CoInitialize()
 
 from pathlib import Path
 from src.logger import get_logger
@@ -9,7 +13,6 @@ from src.macros import data_scrub
 from src.config import MACRO_SOURCE_PATH
 
 log = get_logger(__name__)
-pythoncom.CoInitialize()
 
 
 def compile_code(payload: list[str]) -> str:

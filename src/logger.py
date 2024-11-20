@@ -1,7 +1,7 @@
 import logging
 import colorama
 import sys
-from config import LOG_LEVEL, LOG_FILENAME, LOG_DATE
+from src.config import LOG_LEVEL, LOG_FILENAME, LOG_DATE
 
 colorama.init()
 datefmt = '%H:%M:%S'
