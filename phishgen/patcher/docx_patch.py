@@ -59,7 +59,7 @@ def refactor_macro_link(link: str) -> str:
     :return: True/False
     """
     if os.path.isfile(link):
-        return f"file:///" + link
+        return f"file:///" + str(Path(link).absolute())
     if validate_url(link):
         return link
     if ACCEPT_NON_EXIST_MACRO:
@@ -105,8 +105,8 @@ def patch_macro_path(filepath: Path, new_macro_path: str, new_filepath: Path = N
             pattern = jinja2.Template(file.read())
 
         with open(settings_filepath, "w") as file:
-            file.write(pattern.render(filepath=new_macro_path))
-        log.info(f"Patched document's macro path to {new_macro_path}")
+            file.write(pattern.render(filepath=refactor_macro_link(new_macro_path)))
+        log.info(f"Patched document's macro path to {refactor_macro_link(new_macro_path)}")
 
         temp_folder = temp_directory / f"{DOCX_TEMP_FILENAME}"
 
@@ -117,7 +117,6 @@ def patch_macro_path(filepath: Path, new_macro_path: str, new_filepath: Path = N
                 elif item.is_dir():
                     zip_info = zipfile.ZipInfo(str(item.relative_to(temp_folder)) + '/')
                     zipf.writestr(zip_info, '')
-
 
         shutil.move(
             temp_directory / f"{DOCX_TEMP_FILENAME}_patched.zip",

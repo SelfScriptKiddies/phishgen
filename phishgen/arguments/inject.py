@@ -38,7 +38,7 @@ def add_subparser(subparsers):
     )
     parser_inject.add_argument(
         'macro',
-        type=Path,
+        type=str,
         help="injecting macro URL/filepath"
     )
     parser_inject.add_argument(
