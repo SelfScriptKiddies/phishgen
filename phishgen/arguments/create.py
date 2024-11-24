@@ -1,6 +1,7 @@
 import os
 import argparse
 
+from phishgen.config import ROOT_PATH
 from phishgen.logger import get_logger
 from phishgen.patcher.docx_patch import copy_template
 
@@ -21,23 +22,23 @@ def create(args: argparse.Namespace):
         exit(1)
 
     if mode == 'fulldoc':
-        copy_template(r"resources/examples/resume_document.docx", args.working_directory)
+        copy_template(ROOT_PATH / r"resources/examples/resume_document.docx", args.working_directory)
         log.info(f"Copied full document to '{args.working_directory}'. You can inject your code!")
         return
 
     if mode == 'empty':
-        copy_template(r"resources/examples/harmless_pattern.dotx", args.working_directory)
+        copy_template(ROOT_PATH / r"resources/examples/harmless_pattern.dotx", args.working_directory)
         log.info(f"Copied empty pattern to '{args.working_directory}'. Create docx document with it and inject")
         return
 
     if mode == 'full':
-        copy_template(r"resources/examples/full_resume_pattern.dotx", args.working_directory)
+        copy_template(ROOT_PATH / r"resources/examples/full_resume_pattern.dotx", args.working_directory)
         log.info(f"Copied pattern with full resume to '{args.working_directory}'. Create docx document with it and "
                  f"inject")
         return
 
     if mode == 'macro':
-        copy_template(r"resources/examples/macro.dotm", args.working_directory)
+        copy_template(ROOT_PATH / r"resources/examples/macro.dotm", args.working_directory)
         log.info(f"Copied macro file macro.dotm from examples to {args.working_directory}")
         return
 

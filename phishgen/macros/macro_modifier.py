@@ -102,7 +102,7 @@ def replace_source_code(filepath: Path, source_code: str, output_path: Path = No
     :return:
     """
     if output_path is None:
-        output_path = Path(os.getcwd()) / f"{filepath.stem}_patched.dotm"
+        output_path = Path(os.getcwd()) / f"macro.dotm"
     word, doc = open_document(filepath)
     compiled_code = compile_code(source_code.split('\n'))
     modify_macro(doc, compiled_code)
