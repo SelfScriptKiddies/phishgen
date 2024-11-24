@@ -24,12 +24,11 @@
   
 ## Installation
 
-1. **Clone the Repository**
-
-   ```bash
-   git clone https://github.com/yourusername/word-macro-manager.git
-   cd word-macro-manager
-    ```
+```bash
+git clone https://github.com/SelfScriptKiddies/phishgen.git
+cd phishgen
+pip install -e .
+```
 
 # Usage
 `phishgen` provides three modes:
@@ -43,7 +42,8 @@ phishgen inject generated_document.docx macro.dotm -o patched_document.docx
 
 ## Macro mode
 **Important!** This mode is available only on `Windows` systems with `Word` application. <br>
-Idea is generating .dotm file with provided source code. Source code can be file (`-f` option) or string (`-s` option). <br>
+Idea is generating .dotm file with provided source code. Source code can be file (`-f` option) or string (`-s` option). 
+Default filename will be `macro.dotm` in your current directory. <br>
 **Example**: <br>
 payload.txt:
 ```
@@ -54,11 +54,11 @@ Set wsh = Nothing
 ```
 
 ```bash
-phishgen macro -f payload.txt -o macro.dotm
+phishgen macro -f payload.txt
 ```
 Also source code as string:
 ```bash
-phishgen macro -s "payload" -o macro.dotm
+phishgen macro -s "payload"
 ```
 
 ## Create mode
@@ -67,8 +67,10 @@ Modes:
 - **fulldoc**: copies `.docx` resume, created by template, ready to injection
 - **empty**: copies empty `.dotx` pattern. Needed to create `.docx` document with your content.
 - **full**: copies `.dotx` pattern of resume from step 1. You can edit this resume as you wish!
+- **macro**: copies empty `.dotm`. No source code included
 ```bash
 phishgen create fulldoc -d test_folder/
 phishgen create empty -d test_folder/
 phishgen create full -d test_folder/
+phishgen create macro -d test_folder/
 ```
