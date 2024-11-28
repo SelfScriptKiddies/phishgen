@@ -8,7 +8,7 @@ from phishgen.patcher.docx_patch import copy_template
 log = get_logger(__name__)
 
 
-def create(mode: str, working_directory: str):
+def create(mode: str, working_directory: str = os.getcwd()):
     """
     Function for mode 'macro'.
     Modifies source code in .dotm file.
