@@ -35,4 +35,4 @@ py-modules = ["phishgen"]
 
 [tool.setuptools.packages.find]
 where=["."]
-include = ["phishgen/*"]
+include = ["./*"]
