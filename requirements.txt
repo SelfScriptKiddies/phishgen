@@ -1,3 +1,0 @@
-colorama
-Jinja2
-pywin32
