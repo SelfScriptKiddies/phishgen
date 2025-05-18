@@ -1,0 +1,10 @@
+[package]
+name = "phishgen"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+clap = { version="4.5.38", features=["derive"] }
+colog = "1.3.0"
+log = "0.4.27"
+ovba = { package = "ovba-tonysd-fork", version = "0.7.1" }
