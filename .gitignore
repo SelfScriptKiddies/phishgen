@@ -4,7 +4,6 @@ __pycache__/
 
 # C extensions
 *.so
-
 # Distribution / packaging
 .Python
 build/
@@ -144,7 +143,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
 # pytype static type analyzer
 .pytype/
 
@@ -171,3 +169,4 @@ pyrightconfig.json
 # Custom excludes
 test/**
 .idea
+resources/test
