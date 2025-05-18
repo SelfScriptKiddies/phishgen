@@ -1,10 +1,8 @@
-use colog::init;
-use log::info;
 use clap::Parser;
-pub mod configuration;
+use phishgen::configuration::Configuration;
 
 fn main() {
-    init();
-    let options = configuration::Configuration::parse();
-    info!("Hello, world!");
+    colog::init();
+    let options = Configuration::parse();
+    phishgen::run(options);
 }
