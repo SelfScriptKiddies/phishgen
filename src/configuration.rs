@@ -7,6 +7,9 @@ pub struct Configuration {
     #[arg(short, long)]
     pub verbose: bool,
 
+    #[arg(short='l', long="logging-level", help="Logging level (trace|debug|info|warn|error)", help_heading = "Logging", default_value = "info")]
+    pub logging_level: String,
+
     #[command(subcommand)]
     pub command: Commands,
 }
@@ -49,18 +52,18 @@ pub struct CreateArgs {
 #[derive(Subcommand, Debug)]
 pub enum CreateCommands {
     Empty {
-        #[arg(short='d', long)]
+        #[arg(short='d', long, default_value = ".")]
         output_directory: String,
     },
 
     Full {
-        #[arg(short='d', long)]
+        #[arg(short='d', long, default_value = ".")]
         output_directory: String
     },
 
     #[command(name="fulldoc")]
     FullDoc {
-        #[arg(short='d', long)]
+        #[arg(short='d', long, default_value = ".")]
         output_directory: String
     },
 }
